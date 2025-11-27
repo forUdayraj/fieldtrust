@@ -1,17 +1,12 @@
 package com.fieldtrust.backend.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -23,21 +18,21 @@ public class JwtUtil {
     private long jwtExpirationMs;
 
     private Key getSigningKey() {
-        // use secret bytes (jjwt will accept a key)
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
-    public String generateToken(String username, String role) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role);
-        Date now = new Date();
-        Date expiry = new Date(now.getTime() + jwtExpirationMs);
+    public String generateToken(String email, String role) {
+
+        // convert CUSTOMER → ROLE_CUSTOMER
+        if (!role.startsWith("ROLE_")) {
+            role = "ROLE_" + role;
+        }
 
         return Jwts.builder()
-                .setSubject(username)
-                .addClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(expiry)
+                .setSubject(email)
+                .claim("role", role)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -49,7 +44,7 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (JwtException ex) {
+        } catch (JwtException e) {
             return null;
         }
     }
@@ -61,6 +56,6 @@ public class JwtUtil {
 
     public String getRole(String token) {
         Claims c = validateAndGetClaims(token);
-        return c != null ? (String) c.get("role") : null;
+        return c != null ? c.get("role", String.class) : null;
     }
 }

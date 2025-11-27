@@ -14,40 +14,30 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class AuthController {
 
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private ProviderRepository providerRepository;
+    @Autowired private BCryptPasswordEncoder passwordEncoder;
+    @Autowired private JwtUtil jwtUtil;
 
-    @Autowired
-    private ProviderRepository providerRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    // ================= USER REGISTER =================
     @PostMapping("/register")
     public User register(@RequestBody User req) {
         req.setPassword(passwordEncoder.encode(req.getPassword()));
-        req.setRole(req.getRole() == null ? "CUSTOMER" : req.getRole().toUpperCase());
+        req.setRole(req.getRole().toUpperCase());
         return userRepository.save(req);
     }
 
-    // ================= PROVIDER REGISTER =================
     @PostMapping("/register-provider")
     public Provider registerProvider(@RequestBody Provider req) {
         req.setPassword(passwordEncoder.encode(req.getPassword()));
         return providerRepository.save(req);
     }
 
-    // ================= LOGIN (User + Provider) =================
     @PostMapping("/login")
     public Object login(@RequestBody LoginRequest req) {
         String email = req.email;
         String password = req.password;
 
-        // 1️⃣ CHECK USER TABLE
+        // Check user table (CUSTOMER + ADMIN)
         User user = userRepository.findByEmail(email);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             user.setPassword(null);
@@ -55,7 +45,7 @@ public class AuthController {
             return new LoginResponse(token, user);
         }
 
-        // 2️⃣ CHECK PROVIDER TABLE
+        // Check provider table
         Provider provider = providerRepository.findByEmail(email);
         if (provider != null && passwordEncoder.matches(password, provider.getPassword())) {
             provider.setPassword(null);
@@ -63,7 +53,6 @@ public class AuthController {
             return new ProviderLoginResponse(token, provider);
         }
 
-        // 3️⃣ NO USER FOUND
         return null;
     }
 
@@ -75,7 +64,6 @@ public class AuthController {
     static class LoginResponse {
         public String token;
         public User user;
-
         public LoginResponse(String token, User user) {
             this.token = token;
             this.user = user;
@@ -85,7 +73,6 @@ public class AuthController {
     static class ProviderLoginResponse {
         public String token;
         public Provider provider;
-
         public ProviderLoginResponse(String token, Provider provider) {
             this.token = token;
             this.provider = provider;

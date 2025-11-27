@@ -20,7 +20,7 @@ export default function UploadProof() {
       setPreviewURL(null);
     }
   };
-
+  console.log("UPLOAD ID =", id);
   const upload = async (e) => {
     e.preventDefault();
 
