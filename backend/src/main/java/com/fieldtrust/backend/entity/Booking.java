@@ -11,42 +11,87 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "customer_id")
     private Long customerId;
-    private Long providerId;
 
+    @Column(name = "provider_id")
+    private Long providerId;
+                                                            
+    @Column(name = "service_name")
     private String serviceName;
+
+    @Column(name = "service_description")
     private String serviceDescription;
 
-    private String status; // pending, assigned, completed
+    private String status;
 
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
-    private String proofUrl; // path to uploaded proof
 
+    @Column(name = "proof_url")
+    private String proofUrl;
 
-    // ----------- Getters & Setters --------------
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+    public Long getCustomerId() {
+        return customerId;
+    }
 
-    public Long getProviderId() { return providerId; }
-    public void setProviderId(Long providerId) { this.providerId = providerId; }
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 
-    public String getServiceName() { return serviceName; }
-    public void setServiceName(String serviceName) { this.serviceName = serviceName; }
+    public Long getProviderId() {
+        return providerId;
+    }
 
-    public String getServiceDescription() { return serviceDescription; }
-    public void setServiceDescription(String serviceDescription) { this.serviceDescription = serviceDescription; }
+    public void setProviderId(Long providerId) {
+        this.providerId = providerId;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getServiceName() {
+        return serviceName;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
 
-    public String getProofUrl() { return proofUrl; }
-    public void setProofUrl(String proofUrl) { this.proofUrl = proofUrl; }
+    public String getServiceDescription() {
+        return serviceDescription;
+    }
 
+    public void setServiceDescription(String serviceDescription) {
+        this.serviceDescription = serviceDescription;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getProofUrl() {
+        return proofUrl;
+    }
+
+    public void setProofUrl(String proofUrl) {
+        this.proofUrl = proofUrl;
+    }
 }

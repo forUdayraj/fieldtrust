@@ -23,7 +23,8 @@ public class ProofController {
     private static final String UPLOAD_DIR = "uploads/";
 
     @PostMapping("/upload/{bookingId}")
-    public Booking uploadProof(
+    public 
+    Booking uploadProof(
             @PathVariable Long bookingId,
             @RequestParam("file") MultipartFile file
     ) {

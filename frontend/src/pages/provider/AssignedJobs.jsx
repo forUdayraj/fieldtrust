@@ -3,16 +3,17 @@ import { getProviderJobs } from "../../api/provider";
 import { Link } from "react-router-dom";
 
 export default function AssignedJobs() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const providerId = localStorage.getItem("userId"); // ← FIX HERE
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     async function load() {
-      const res = await getProviderJobs(user.id);
+      if (!providerId) return;
+      const res = await getProviderJobs(providerId);
       setJobs(res.data);
     }
     load();
-  }, []);
+  }, [providerId]);
 
   return (
     <div style={{ padding: 20 }}>
@@ -22,7 +23,7 @@ export default function AssignedJobs() {
         <p>No jobs assigned.</p>
       ) : (
         <ul>
-          {jobs.map((job) => (
+          {jobs.map(job => (
             <li key={job.id}>
               <strong>{job.serviceName}</strong><br />
               Status: {job.status}<br />

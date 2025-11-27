@@ -16,8 +16,8 @@ public class ProviderController {
     private ProviderRepository providerRepository;
 
     @PostMapping("/create")
-    public Provider create(@RequestBody Provider p) {
-        return providerRepository.save(p);
+    public Provider create(@RequestBody Provider provider) {
+        return providerRepository.save(provider);
     }
 
     @GetMapping("/all")

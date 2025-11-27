@@ -1,37 +1,108 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+
 import Login from "./pages/auth/Login";
-import CustomerDashboard from "./pages/customer/CustomerDashboard";
-import ProviderDashboard from "./pages/provider/ProviderDashboard";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 import Signup from "./pages/auth/Signup";
+
+import CustomerDashboard from "./pages/customer/CustomerDashboard";
 import CreateBooking from "./pages/customer/CreateBooking";
 import BookingList from "./pages/customer/BookingList";
+import UploadProof from "./pages/customer/UploadProof";
+
+import ProviderDashboard from "./pages/provider/ProviderDashboard";
 import AssignedJobs from "./pages/provider/AssignedJobs";
 import JobDetails from "./pages/provider/JobDetails";
-import UploadProof from "./pages/customer/UploadProof";
+
+import AdminDashboard from "./pages/admin/AdminDashboard";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      {/* Global Navbar on all pages */}
+      <Navbar />
 
+      <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* Customer */}
-        <Route path="/customer/dashboard" element={<CustomerDashboard />} />
+        {/* CUSTOMER ROUTES */}
+        <Route
+          path="/customer/dashboard"
+          element={
+            <ProtectedRoute role="CUSTOMER">
+              <CustomerDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Provider */}
-        <Route path="/provider/dashboard" element={<ProviderDashboard />} />
+        <Route
+          path="/customer/create-booking"
+          element={
+            <ProtectedRoute role="CUSTOMER">
+              <CreateBooking />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Admin */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/customer/create-booking" element={<CreateBooking />} />
-        <Route path="/customer/bookings" element={<BookingList />} />
-        <Route path="/provider/jobs" element={<AssignedJobs />} />
-        <Route path="/provider/job/:id" element={<JobDetails />} />
-        <Route path="/customer/upload/:id" element={<UploadProof />} />
+        <Route
+          path="/customer/bookings"
+          element={
+            <ProtectedRoute role="CUSTOMER">
+              <BookingList />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/customer/upload/:id"
+          element={
+            <ProtectedRoute role="CUSTOMER">
+              <UploadProof />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* PROVIDER ROUTES */}
+        <Route
+          path="/provider/dashboard"
+          element={
+            <ProtectedRoute role="PROVIDER">
+              <ProviderDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/provider/jobs"
+          element={
+            <ProtectedRoute role="PROVIDER">
+              <AssignedJobs />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/provider/job/:id"
+          element={
+            <ProtectedRoute role="PROVIDER">
+              <JobDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ADMIN ROUTES */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

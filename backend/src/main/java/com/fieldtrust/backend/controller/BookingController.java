@@ -4,13 +4,12 @@ import com.fieldtrust.backend.entity.Booking;
 import com.fieldtrust.backend.entity.Provider;
 import com.fieldtrust.backend.repository.BookingRepository;
 import com.fieldtrust.backend.repository.ProviderRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/booking")
@@ -23,48 +22,53 @@ public class BookingController {
     @Autowired
     private ProviderRepository providerRepository;
 
-    // Auto-assign provider
+    // Create booking + auto-assign provider
     @PostMapping("/create")
-    public Booking create(@RequestBody Booking b) {
+    public Booking create(@RequestBody Booking booking) {
 
-        // Ensure createdAt is set
-        if (b.getCreatedAt() == null) {
-            b.setCreatedAt(java.time.LocalDateTime.now());
+        // set createdAt if missing
+        if (booking.getCreatedAt() == null) {
+            booking.setCreatedAt(LocalDateTime.now());
         }
 
-        // Load all providers
+        // Step 1: Load providers from providers table
         List<Provider> providers = providerRepository.findAll();
+
         if (providers.isEmpty()) {
-            b.setStatus("pending");
-            return bookingRepository.save(b);
+            booking.setStatus("pending");
+            return bookingRepository.save(booking);
         }
 
-        // Choose provider with fewest active jobs
-        Provider best = providers.stream()
+        // Step 2: Select provider with fewest active jobs
+        Provider bestProvider = providers.stream()
                 .min(Comparator.comparingLong(p ->
                         bookingRepository.countByProviderIdAndStatusNot(
-                                p.getId(), "completed")))
+                                p.getId(),
+                                "completed"
+                        )
+                ))
                 .orElse(null);
 
-        if (best != null) {
-            b.setProviderId(best.getId());
-            b.setStatus("assigned");
+        // Step 3: Assign provider
+        if (bestProvider != null) {
+            booking.setProviderId(bestProvider.getId());
+            booking.setStatus("assigned");
         } else {
-            b.setStatus("pending");
+            booking.setStatus("pending");
         }
 
-        return bookingRepository.save(b);
+        return bookingRepository.save(booking);
     }
 
     // Get bookings for customer
     @GetMapping("/customer/{id}")
-    public List<Booking> customerBookings(@PathVariable Long id) {
+    public List<Booking> getCustomerBookings(@PathVariable Long id) {
         return bookingRepository.findByCustomerId(id);
     }
 
     // Get bookings for provider
     @GetMapping("/provider/{id}")
-    public List<Booking> providerBookings(@PathVariable Long id) {
+    public List<Booking> getProviderBookings(@PathVariable Long id) {
         return bookingRepository.findByProviderId(id);
     }
 
@@ -78,12 +82,13 @@ public class BookingController {
     @PostMapping("/update-status/{id}")
     public Booking updateStatus(
             @PathVariable Long id,
-            @RequestParam String status) {
+            @RequestParam String status
+    ) {
+        Booking booking = bookingRepository.findById(id).orElse(null);
 
-        Booking b = bookingRepository.findById(id).orElse(null);
-        if (b != null) {
-            b.setStatus(status);
-            return bookingRepository.save(b);
+        if (booking != null) {
+            booking.setStatus(status);
+            return bookingRepository.save(booking);
         }
         return null;
     }

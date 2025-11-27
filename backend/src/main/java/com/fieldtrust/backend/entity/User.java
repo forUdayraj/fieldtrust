@@ -14,6 +14,9 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
@@ -27,6 +30,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {    // FIXED
+        return name;
+    }
+
+    public void setName(String name) {   // FIXED
+        this.name = name;
     }
 
     public String getEmail() {
