@@ -22,20 +22,20 @@ public class JwtUtil {
     }
 
     public String generateToken(String email, String role) {
+    // DON'T add ROLE_ prefix here - we'll add it in the filter
+    // Remove this code block:
+    // if (!role.startsWith("ROLE_")) {
+    //     role = "ROLE_" + role;
+    // }
 
-        // convert CUSTOMER → ROLE_CUSTOMER
-        if (!role.startsWith("ROLE_")) {
-            role = "ROLE_" + role;
-        }
-
-        return Jwts.builder()
-                .setSubject(email)
-                .claim("role", role)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
-    }
+    return Jwts.builder()
+            .setSubject(email)
+            .claim("role", role) // Store as "CUSTOMER", not "ROLE_CUSTOMER"
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+            .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+            .compact();
+}
 
     public Claims validateAndGetClaims(String token) {
         try {

@@ -21,15 +21,14 @@ import ProtectedRoute from "./components/ProtectedRoute";
 export default function App() {
   return (
     <BrowserRouter>
-      {/* Global Navbar on all pages */}
       <Navbar />
 
       <Routes>
-        {/* Public Routes */}
+        {/* PUBLIC */}
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* CUSTOMER ROUTES */}
+        {/* CUSTOMER */}
         <Route
           path="/customer/dashboard"
           element={
@@ -66,7 +65,7 @@ export default function App() {
           }
         />
 
-        {/* PROVIDER ROUTES */}
+        {/* PROVIDER */}
         <Route
           path="/provider/dashboard"
           element={
@@ -76,6 +75,7 @@ export default function App() {
           }
         />
 
+        {/* ✅ FINAL: NO PARAM HERE */}
         <Route
           path="/provider/jobs"
           element={
@@ -94,7 +94,16 @@ export default function App() {
           }
         />
 
-        {/* ADMIN ROUTES */}
+        <Route
+          path="/provider/job"
+          element={
+            <ProtectedRoute role="PROVIDER">
+              <JobDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ADMIN */}
         <Route
           path="/admin/dashboard"
           element={

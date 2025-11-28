@@ -33,7 +33,7 @@ export default function ProviderDashboard() {
 
         {/* Assigned Jobs */}
         <Link
-          to="/provider/jobs"
+          to={`/provider/job/${provider?.id}`}
           className="block bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-lg hover:-translate-y-1 transition"
         >
           <div className="flex items-center gap-4">

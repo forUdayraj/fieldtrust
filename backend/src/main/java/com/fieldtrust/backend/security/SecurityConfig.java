@@ -33,36 +33,36 @@ public class SecurityConfig {
         return p;
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+   @Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-            .csrf().disable()
-            .cors().and()
+    http
+        .csrf().disable()
+        .cors().and()
 
-            .authorizeHttpRequests()
+        .authorizeHttpRequests()
 
-            // Allow preflight CORS
-            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+        // Allow preflight CORS
+        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-            // Public
-            .requestMatchers("/auth/**", "/files/**", "/proof/**").permitAll()
+        // Public
+        .requestMatchers("/auth/**", "/files/**", "/proof/**").permitAll()
 
-            // Role based
-            .requestMatchers("/admin/**").hasRole("ADMIN")
-            .requestMatchers("/provider/**", "/booking/provider/**").hasRole("PROVIDER")
-            .requestMatchers("/customer/**", "/booking/customer/**", "/booking/create").hasRole("CUSTOMER")
+        // Role based - using hasAuthority because token has ROLE_ prefix
+        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+        .requestMatchers("/provider/**", "/booking/provider/**").hasAuthority("ROLE_PROVIDER")
+        .requestMatchers("/customer/**", "/booking/customer/**", "/booking/create").hasAuthority("ROLE_CUSTOMER")
 
-            .anyRequest().authenticated()
-            .and()
+        .anyRequest().authenticated()
+        .and()
 
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
 
-            .authenticationProvider(authProvider())
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        .authenticationProvider(authProvider())
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    return http.build();
+}
 }

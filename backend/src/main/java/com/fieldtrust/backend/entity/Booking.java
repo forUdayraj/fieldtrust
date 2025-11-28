@@ -1,8 +1,11 @@
 package com.fieldtrust.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 @Entity
 @Table(name = "bookings")
 public class Booking {
@@ -13,23 +16,6 @@ public class Booking {
 
     @Column(name = "customer_id")
     private Long customerId;
-
-    @Column(name = "provider_id")
-    private Long providerId;
-                                                            
-    @Column(name = "service_name")
-    private String serviceName;
-
-    @Column(name = "service_description")
-    private String serviceDescription;
-
-    private String status;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(name = "proof_url")
-    private String proofUrl;
 
     public Long getId() {
         return id;
@@ -94,4 +80,22 @@ public class Booking {
     public void setProofUrl(String proofUrl) {
         this.proofUrl = proofUrl;
     }
+
+    @Column(name = "provider_id")
+    private Long providerId;
+                                                            
+    @Column(name = "service_name")
+    private String serviceName;
+
+    @Column(name = "service_description")
+    private String serviceDescription;
+
+    private String status;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(name = "proof_url")
+    private String proofUrl;
+
 }
