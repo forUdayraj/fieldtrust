@@ -31,7 +31,7 @@ export default function Navbar() {
 
           {!token && (
             <>
-              <Link className="text-gray-700 hover:text-teal-600 font-medium transition" to="/">
+              <Link className="text-gray-700 hover:text-teal-600 font-medium transition" to="/login">
                 Login
               </Link>
 
