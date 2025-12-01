@@ -2,69 +2,56 @@ import { Link } from "react-router-dom";
 import { logout } from "../../utils/logout";
 
 export default function ProviderDashboard() {
-  const provider = JSON.parse(localStorage.getItem("user"));
+  const provider = JSON.parse(localStorage.getItem("user")); // unified auth
 
   return (
-    <div className="px-6 py-8 min-h-[calc(100vh-64px)] bg-gray-100">
-      
-      {/* Header Card */}
-      <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200 mb-8">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">
-              Welcome, {provider?.name || "Provider"} 👋
-            </h1>
-            <p className="text-gray-600 mt-1">
-              Manage your assigned jobs and update job status.
-            </p>
-          </div>
+    <div className="px-6 py-14 bg-gradient-to-b from-white via-teal-50 to-cyan-50 min-h-[calc(100vh-64px)]">
 
-          <button
-            onClick={logout}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition"
-          >
-            Logout
-          </button>
-        </div>
+      {/* HEADER */}
+      <div className="mb-14">
+        <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">
+          Welcome back, {provider?.name || "Provider"}
+        </h1>
+        <p className="text-gray-600 text-lg mt-2">
+          Manage your jobs and track your work efficiently.
+        </p>
       </div>
 
-      {/* Action Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* GRID ACTIONS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl">
 
-        {/* Assigned Jobs */}
+        {/* ASSIGNED JOBS CARD */}
         <Link
-          to={`/provider/job/${provider?.id}`}
-          className="block bg-white rounded-xl shadow-md border border-gray-200 p-6 hover:shadow-lg hover:-translate-y-1 transition"
+          to="/provider/jobs"
+          className="group p-10 border border-gray-200 rounded-2xl bg-white 
+                     hover:border-teal-400 hover:bg-teal-50 transition-all duration-300"
         >
-          <div className="flex items-center gap-4">
-            <span className="text-4xl">📋</span>
-            <div>
-              <h2 className="text-xl font-semibold text-blue-700">
-                View Assigned Jobs
-              </h2>
-              <p className="text-gray-600 mt-1">
-                Track all jobs assigned to you and update their status.
-              </p>
-            </div>
-          </div>
+          <div className="mb-4 h-1 w-20 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full"></div>
+
+          <h2 className="text-2xl font-semibold text-gray-900 group-hover:text-teal-700 transition">
+            Assigned Jobs
+          </h2>
+
+          <p className="text-gray-600 mt-3 leading-relaxed">
+            View and track all tasks assigned to you in real time.
+          </p>
         </Link>
 
-        {/* Future Feature */}
-        <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6 opacity-60 cursor-not-allowed">
-          <div className="flex items-center gap-4">
-            <span className="text-4xl">⭐</span>
-            <div>
-              <h2 className="text-xl font-semibold text-gray-400">
-                Provider Insights (Coming Soon)
-              </h2>
-              <p className="text-gray-400 mt-1">
-                View performance and job completion stats.
-              </p>
-            </div>
-          </div>
+        {/* INSIGHTS (COMING SOON) */}
+        <div className="p-10 border border-gray-200 rounded-2xl bg-gray-50 opacity-70 cursor-not-allowed">
+          <div className="mb-4 h-1 w-20 bg-gray-300 rounded-full"></div>
+
+          <h2 className="text-2xl font-semibold text-gray-400">
+            Provider Insights (Coming Soon)
+          </h2>
+
+          <p className="text-gray-400 mt-3 leading-relaxed">
+            Analytics, performance score, job trends — launching soon.
+          </p>
         </div>
 
       </div>
+
     </div>
   );
 }

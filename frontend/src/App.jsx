@@ -17,6 +17,7 @@ import JobDetails from "./pages/provider/JobDetails";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import LandingPage from "./pages/auth/LandingPage";
 
 export default function App() {
   return (
@@ -25,7 +26,8 @@ export default function App() {
 
       <Routes>
         {/* PUBLIC */}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
         {/* CUSTOMER */}

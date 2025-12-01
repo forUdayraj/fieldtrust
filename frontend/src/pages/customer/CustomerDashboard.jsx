@@ -1,58 +1,62 @@
 export default function CustomerDashboard() {
-  const userName = localStorage.getItem("name") || "Customer";
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userName = user?.name || "Customer";
 
   return (
-    <div className="px-6 py-8">
-      {/* Welcome Section */}
-      <div className="bg-white rounded-xl shadow-md p-6 border border-gray-200 mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
-          Welcome, {userName} 👋
+    <div className="px-6 py-12">
+
+      {/* HEADER */}
+      <div className="mb-12">
+        <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+          Welcome back, {userName}
         </h1>
-        <p className="text-gray-600 mt-2">
-          Manage your bookings and services easily.
+        <p className="text-gray-600 mt-3 text-lg">
+          Manage your bookings and home services effortlessly.
         </p>
       </div>
 
-      {/* Action Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* ACTION GRID ― FLAT, MODERN, MINIMAL */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
         {/* Create Booking */}
         <a
           href="/customer/create-booking"
-          className="bg-white rounded-xl shadow-md p-6 border border-gray-200 hover:shadow-lg transition block"
+          className="group p-8 border border-gray-200 rounded-2xl bg-white 
+                     hover:bg-teal-50 hover:border-teal-300 transition-all"
         >
-          <h2 className="text-xl font-semibold text-blue-600">
-            Create New Booking
+          <h2 className="text-2xl font-semibold text-teal-700 group-hover:text-teal-800 transition">
+            Create Booking
           </h2>
-          <p className="text-gray-600 mt-2">
-            Book a home service quickly and easily.
+          <p className="text-gray-600 mt-3">
+            Book any home service instantly.
           </p>
         </a>
 
         {/* View Bookings */}
         <a
           href="/customer/bookings"
-          className="bg-white rounded-xl shadow-md p-6 border border-gray-200 hover:shadow-lg transition block"
+          className="group p-8 border border-gray-200 rounded-2xl bg-white 
+                     hover:bg-teal-50 hover:border-teal-300 transition-all"
         >
-          <h2 className="text-xl font-semibold text-blue-600">
+          <h2 className="text-2xl font-semibold text-teal-700 group-hover:text-teal-800 transition">
             My Bookings
           </h2>
-          <p className="text-gray-600 mt-2">
-            View and track all your service bookings.
+          <p className="text-gray-600 mt-3">
+            Track all past and active bookings.
           </p>
         </a>
 
         {/* Upload Proof */}
         <a
           href="/customer/bookings"
-          className="bg-white rounded-xl shadow-md p-6 border border-gray-200 hover:shadow-lg transition block"
+          className="group p-8 border border-gray-200 rounded-2xl bg-white 
+                     hover:bg-teal-50 hover:border-teal-300 transition-all"
         >
-          <h2 className="text-xl font-semibold text-blue-600">
-            Upload Payment Proof
+          <h2 className="text-2xl font-semibold text-teal-700 group-hover:text-teal-800 transition">
+            Upload Proof
           </h2>
-          <p className="text-gray-600 mt-2">
-            Upload proof for completed services.
+          <p className="text-gray-600 mt-3">
+            Submit payment or job proof securely.
           </p>
         </a>
 

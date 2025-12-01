@@ -1,3 +1,5 @@
+// src/api/provider.js
+
 import api from "./axios";
 
 export const getProviderJobs = (id) =>
@@ -5,4 +7,3 @@ export const getProviderJobs = (id) =>
 
 export const updateJobStatus = (id, status) =>
   api.post(`/booking/update-status/${id}?status=${status}`);
-

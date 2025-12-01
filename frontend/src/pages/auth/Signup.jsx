@@ -38,75 +38,100 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-64px)] bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white p-10 rounded-xl shadow-sm border border-gray-200">
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-b from-teal-50 via-white to-cyan-50 px-6">
 
-        <h1 className="text-2xl font-semibold text-gray-800 text-center mb-8">
-          Create your FieldTrust account
+      <div className="w-full max-w-4xl">
+
+        {/* HEADER */}
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
+          Create your account
         </h1>
+        <p className="text-gray-600 mb-10">
+          Join FieldTrust and access trusted home services instantly.
+        </p>
 
-        <form onSubmit={handleSignup} className="space-y-6">
+        {/* FORM */}
+        <form onSubmit={handleSignup} className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-          <div>
-            <label className="block text-gray-700 mb-1">Full Name</label>
-            <input
-              type="text"
-              name="name"
-              className="w-full px-4 py-2 border rounded-lg text-gray-800"
-              value={form.name}
-              onChange={handleChange}
-              required
-            />
+          {/* LEFT SIDE COLUMNS */}
+          <div className="space-y-6">
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Full Name</label>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 
+                           focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 
+                           focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-gray-700 mb-1">Email</label>
-            <input
-              type="email"
-              name="email"
-              className="w-full px-4 py-2 border rounded-lg text-gray-800"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
+          {/* RIGHT SIDE COLUMNS */}
+          <div className="space-y-6">
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 
+                           focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Role</label>
+              <select
+                name="role"
+                value={form.role}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 
+                           focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+              >
+                <option value="">Select role</option>
+                <option value="CUSTOMER">Customer</option>
+                <option value="PROVIDER">Provider</option>
+              </select>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-gray-700 mb-1">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="w-full px-4 py-2 border rounded-lg text-gray-800"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 mb-1">Role</label>
-            <select
-              name="role"
-              className="w-full px-4 py-2 border rounded-lg"
-              value={form.role}
-              onChange={handleChange}
-              required
+          {/* FULL WIDTH BUTTON */}
+          <div className="col-span-1 md:col-span-2">
+            <button
+              type="submit"
+              className="w-full py-3 bg-teal-600 text-white rounded-xl text-lg font-semibold 
+                         hover:bg-teal-700 transition shadow-md active:scale-95"
             >
-              <option value="">Select</option>
-              <option value="CUSTOMER">Customer</option>
-              <option value="PROVIDER">Provider</option>
-            </select>
+              Create Account
+            </button>
           </div>
-
-          <button className="w-full py-2 bg-blue-600 text-white rounded-lg">
-            Create Account
-          </button>
-
         </form>
 
-        <p className="text-center mt-6 text-gray-600">
+        {/* FOOTER */}
+        <p className="text-center mt-8 text-gray-600">
           Already have an account?{" "}
-          <a href="/" className="text-blue-600">Sign in</a>
+          <a href="/" className="text-teal-600 font-semibold hover:underline">
+            Sign in
+          </a>
         </p>
 
       </div>

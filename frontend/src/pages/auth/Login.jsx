@@ -13,102 +13,98 @@ export default function Login() {
 
     try {
       const res = await axios.post("/auth/login", { email, password });
-
       const token = res.data.token;
 
-      // Decide if login is user or provider
-      const user = res.data.user || res.data.provider;
+      const loggedUser = res.data.user || res.data.provider || res.data.admin;
 
-      if (!user) {
+      if (!loggedUser) {
         alert("Invalid credentials");
         return;
       }
 
       localStorage.setItem("token", token);
 
-      // role: provider has no role in DB so we set manually
-      console.log(user.role);
-      const role = user.role || "PROVIDER";
-      localStorage.setItem("role", role);
+      const user = {
+        id: loggedUser.id,
+        name: loggedUser.name,
+        email: loggedUser.email,
+        role: loggedUser.role,
+      };
 
-      localStorage.setItem("name", user.name);
       localStorage.setItem("user", JSON.stringify(user));
 
-      // redirect
-      if (role === "CUSTOMER") navigate("/customer/dashboard");
-      if (role === "PROVIDER") navigate("/provider/dashboard");
-      if (role === "ADMIN") navigate("/admin/dashboard");
+      if (user.role === "CUSTOMER") navigate("/customer/dashboard");
+      if (user.role === "PROVIDER") navigate("/provider/dashboard");
+      if (user.role === "ADMIN") navigate("/admin/dashboard");
+
     } catch (err) {
       alert("Invalid credentials");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-64px)] bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white p-10 rounded-xl shadow-sm border border-gray-200">
-        {/* Title */}
-        <h1 className="text-2xl font-semibold text-gray-800 text-center mb-8">
-          Sign in to FieldTrust
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-b from-teal-50 via-white to-cyan-50 px-6">
+
+      <div className="w-full max-w-4xl">
+
+        {/* HEADER */}
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
+          Welcome back
         </h1>
+        <p className="text-gray-600 mb-10">
+          Sign in to access your FieldTrust account.
+        </p>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          {/* Email */}
-          <div>
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg
-                         focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none
-                         text-gray-800"
-              placeholder="you@example.com"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+        {/* FLAT FORM */}
+        <form onSubmit={handleLogin} className="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+          {/* LEFT */}
+          <div className="space-y-6">
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Email</label>
+              <input
+                type="email"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900
+                           focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+                placeholder="you@example.com"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
           </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg
-                         focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none
-                         text-gray-800"
-              placeholder="Enter your password"
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+          {/* RIGHT */}
+          <div className="space-y-6">
+            <div>
+              <label className="block text-gray-700 font-medium mb-1">Password</label>
+              <input
+                type="password"
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900
+                           focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+                placeholder="••••••••"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
           </div>
 
-          {/* Login Button */}
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-600 text-white rounded-lg
-                       font-medium hover:bg-blue-700 transition"
-          >
-            Continue
-          </button>
+          {/* FULL WIDTH BUTTON */}
+          <div className="col-span-1 md:col-span-2">
+            <button
+              type="submit"
+              className="w-full py-3 bg-teal-600 text-white rounded-xl text-lg font-semibold
+                         hover:bg-teal-700 transition shadow-md active:scale-95"
+            >
+              Sign In
+            </button>
+          </div>
         </form>
 
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="px-3 text-gray-500 text-sm">OR</span>
-          <div className="flex-grow border-t border-gray-300"></div>
-        </div>
-
-        {/* Signup */}
-        <p className="text-center text-gray-600 text-sm">
+        {/* FOOTER LINKS */}
+        <p className="text-center mt-8 text-gray-600">
           Don’t have an account?{" "}
-          <a
-            href="/signup"
-            className="text-blue-600 font-medium hover:underline"
-          >
-            Create account
+          <a href="/signup" className="text-teal-600 font-semibold hover:underline">
+            Create one
           </a>
         </p>
       </div>

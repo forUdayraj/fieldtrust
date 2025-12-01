@@ -1,3 +1,5 @@
+// src/pages/provider/JobDetails.jsx
+
 import { useEffect, useState } from "react";
 import { getBookingById } from "../../api/booking";
 import { updateJobStatus } from "../../api/provider";
@@ -13,7 +15,7 @@ export default function JobDetails() {
       setJob(res.data);
     }
     load();
-  }, []);
+  }, [id]);
 
   const markCompleted = async () => {
     await updateJobStatus(id, "completed");

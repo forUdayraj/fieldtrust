@@ -20,62 +20,91 @@ export default function CreateBooking() {
     e.preventDefault();
 
     await createBooking(form);
-    alert("Booking Created Successfully!");
     navigate("/customer/dashboard");
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-64px)] bg-gray-100 px-4">
-      <div className="w-full max-w-lg bg-white p-8 rounded-xl shadow-md border border-gray-200">
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-br from-white via-teal-50 to-cyan-50 px-8 py-16">
 
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Create Booking
-        </h1>
+      <div className="w-full max-w-5xl grid md:grid-cols-2 gap-16">
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        {/* LEFT SIDE TEXT */}
+        <div className="flex flex-col justify-center">
+          <h1 className="text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+            Book a service  
+            <span className="block bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+              effortlessly.
+            </span>
+          </h1>
 
-          {/* Service Name */}
-          <div>
-            <label className="block mb-2 text-gray-700 font-medium">
+          <p className="text-gray-600 text-lg leading-relaxed mb-10">
+            Tell us what you need help with. Our platform will automatically 
+            assign the most suitable professional for your task.
+          </p>
+
+          {/* Gradient Accent Bar */}
+          <div className="h-1 w-32 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full"></div>
+        </div>
+
+        {/* RIGHT SIDE FORM */}
+        <form 
+          onSubmit={handleSubmit} 
+          className="space-y-10"
+        >
+          {/* SERVICE NAME */}
+          <div className="group">
+            <label className="block text-gray-800 font-semibold mb-2 tracking-wide">
               Service Name
             </label>
             <input
               type="text"
               name="serviceName"
-              placeholder="Enter service name"
               value={form.serviceName}
               onChange={handleChange}
+              placeholder="Cleaning, AC Repair, Plumbing..."
+              className="w-full px-4 py-3 border-b border-gray-300 
+                         bg-transparent text-gray-900 text-lg 
+                         focus:border-teal-600 focus:outline-none 
+                         transition-all duration-300"
               required
-              className="w-full px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
+            <div className="h-[2px] w-0 group-hover:w-full bg-teal-500 transition-all duration-300"></div>
           </div>
 
-          {/* Service Description */}
-          <div>
-            <label className="block mb-2 text-gray-700 font-medium">
+          {/* SERVICE DESCRIPTION */}
+          <div className="group">
+            <label className="block text-gray-800 font-semibold mb-2 tracking-wide">
               Service Description
             </label>
             <textarea
               name="serviceDescription"
-              placeholder="Enter service details"
               value={form.serviceDescription}
               onChange={handleChange}
-              rows="4"
+              placeholder="Describe the issue or service required..."
+              rows="5"
+              className="w-full px-4 py-3 border-b border-gray-300 
+                         bg-transparent text-gray-900 text-lg 
+                         focus:border-teal-600 focus:outline-none 
+                         transition-all duration-300 resize-none"
               required
-              className="w-full px-4 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             ></textarea>
+            <div className="h-[2px] w-0 group-hover:w-full bg-teal-500 transition-all duration-300"></div>
           </div>
 
-          {/* Button */}
+          {/* SUBMIT BUTTON */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+            className="w-full py-4 text-lg font-semibold rounded-xl 
+                       bg-gradient-to-r from-teal-600 to-cyan-600 
+                       text-white hover:opacity-90 active:scale-95 
+                       transition-all shadow-md"
           >
-            Create Booking
+            Confirm Booking
           </button>
-
         </form>
+
       </div>
+      
     </div>
   );
 }
